@@ -2,7 +2,7 @@
   "api/API.html": {
     "href": "api/API.html",
     "title": "API | PleOps.Cake",
-    "keywords": "API TODO: #4"
+    "keywords": "API TODO: #30 Document tasks and options"
   },
   "CONTRIBUTING.html": {
     "href": "CONTRIBUTING.html",
@@ -11,8 +11,8 @@
   },
   "dev/Changelog.html": {
     "href": "dev/Changelog.html",
-    "title": "Changelog | PleOps.Cake",
-    "keywords": "Changelog To be filled on preview builds."
+    "title": "vNext (November 22, 2020) | PleOps.Cake",
+    "keywords": "vNext (November 22, 2020) As part of this release we had 23 issues closed. First implementation of a full automatized pipeline! Documentation #29 Document project setup #20 Add DocFX documentation #4 Document project setup Enhancements #31 Push documentation to gh-pages #28 Implement central management of NuGet package versions #24 Implement push artifacts on preview and stable releases #22 Add code analyzers #18 Implement automated release notes #17 Create dev environment #15 Push artifacts to GitHub release on stable release #14 Implement preview documentation #13 Migrate pipeline to GitHub #12 Create stable workflow #5 Implement release notes automation #3 Implement GitHub action #2 Include code analysis"
   },
   "guides/Contributing.html": {
     "href": "guides/Contributing.html",
