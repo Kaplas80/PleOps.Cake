@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Project setup | PleOps.Cake </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Project setup | PleOps.Cake ">
+    <meta name="generator" content="docfx 2.56.5.0">
+    
+    <link rel="shortcut icon" href="../images/favicon.png">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    <meta property="docfx:newtab" content="true">
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../images/logo_48.png" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+                
+                <ul class="nav level1 navbar-nav">
+                      <li>
+                          <a href="../index.html" title="Home">Home</a>
+                      </li>
+                      <li>
+                          <a href="../guides/Project%20setup.html" title="Guides">Guides</a>
+                      </li>
+                      <li>
+                          <a href="../dev/Changelog.html" title="API">API</a>
+                      </li>
+                      <li>
+                          <a href="https://github.com/pleonex/PleOps.Cake" title="GitHub">GitHub</a>
+                      </li>
+                </ul>    </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div>
+              <div class="sidefilter">
+                <form class="toc-filter">
+                  <span class="glyphicon glyphicon-filter filter-icon"></span>
+                  <input type="text" id="toc_filter_input" placeholder="Enter here to filter..." onkeypress="if(event.keyCode==13) {return false;}">
+                </form>
+              </div>
+              <div class="sidetoc">
+                <div class="toc" id="toc">
+                  
+                  <ul class="nav level1">
+                    <li class="active">
+                      <a href="Project%20setup.html" title="Project setup" class="active">Project setup</a>
+                    </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a class="">Design specification</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="spec/PipelineWorkflow.html" title="Pipeline workflow" class="">Pipeline workflow</a>
+                          </li>
+                          <li class="">
+                            <a href="spec/TranslationWorkflow.html" title="Translation workflow" class="">Translation workflow</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a class="">Contributing</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="Contributing.html" title="Guidelines" class="">Guidelines</a>
+                          </li>
+                        </ul>  </li>
+                  </ul>        </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="project-setup">Project setup</h1>
+
+<p>Use the <a href="https://github.com/pleonex/template-csharp">project template</a> to
+initialize a new repository, or adapt an existing one copying its file and
+structure. Then follow this checklist to adapt the template to your project.</p>
+<h2 id="setup">Setup</h2>
+<ul>
+<li>[ ] Update README.md: title and description.</li>
+<li>[ ] Update LICENSE: copyright author</li>
+<li>[ ] Rename, edit, remove the project folders inside <code>src/</code> and the solution
+file.</li>
+<li>[ ] Edit the project name and URL in <code>src/Directory.Build.props</code></li>
+<li>[ ] Add, remove, update dependencies in <code>src/Directory.Build.targets</code></li>
+<li>[ ] Update the icons of the project at <code>docs/images/</code>.</li>
+<li>[ ] Update the <code>.csproj</code> files with the correct dependencies.</li>
+</ul>
+<h2 id="documentation">Documentation</h2>
+<ul>
+<li>[ ] Update the first steps doc at <code>docs/guides/First-Steps.md</code>.</li>
+<li>[ ] Update <code>docs/docfx.json</code> with the path to the API project files.</li>
+<li>[ ] Update <code>docs/global_metadata.json</code> with the properties of the project.</li>
+<li>[ ] Update <code>docs/toc.yml</code> with the project URL.</li>
+</ul>
+<h2 id="build-and-release-workflows">Build and release workflows</h2>
+<ul>
+<li>[ ] Create the milestone <code>vNext</code>.</li>
+<li>[ ] Update <code>launch.json</code> with the path of the console application (if any).</li>
+<li>[ ] Update <code>build.cake</code> to add the name of the projects in the <code>src</code> folder.</li>
+<li>[ ] Update <code>build.cake</code> with the stable and preview NuGet feeds.</li>
+<li>[ ] Update in the workflow, the variable <code>PREVIEW_NUGET_FEED</code> with the NuGet
+feed in Azure DevOps to use for preview releases or remove the step if
+using a different NuGet feed.</li>
+<li>[ ] Add a new secret <code>NUGET_PREVIEW_TOKEN</code> with the personal access token for
+the preview NuGet feed.</li>
+<li>[ ] Add a new secret <code>STABLE_NUGET_FEED_TOKEN</code> with the API key for the stable
+NuGet feed.</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/pleonex/PleOps.Cake/blob/develop/docs/guides/Project setup.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright (c) 2020 Benito Palacios Sánchez
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

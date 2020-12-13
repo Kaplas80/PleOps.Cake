@@ -1,6 +1,6 @@
 {
   "homepages": [],
-  "source_base_path": "/workspaces/devops/PleOps.Cake/docs",
+  "source_base_path": "/home/runner/work/PleOps.Cake/PleOps.Cake/docs",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -90,7 +90,7 @@
       "output": {
         ".html": {
           "relative_path": "guides/Project setup.html",
-          "hash": "cMEBMSIK1Ufg8hJKxvVUJA=="
+          "hash": "jzPPxD17GR1JqYuXu9i0zQ=="
         }
       },
       "is_incremental": false,
