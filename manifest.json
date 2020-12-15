@@ -26,18 +26,6 @@
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "../README.md",
-      "output": {
-        ".html": {
-          "relative_path": "README.html",
-          "hash": "dnwqLwUOlLJRBPX/UkZVCQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
       "source_relative_path": "api/API.md",
       "output": {
         ".html": {
@@ -54,7 +42,7 @@
       "output": {
         ".html": {
           "relative_path": "dev/Changelog.html",
-          "hash": "tHfnJZNPu1lBB3UxiPxovg=="
+          "hash": "e3JeWHmk5MNqtyjmWadDLQ=="
         }
       },
       "is_incremental": false,
@@ -237,7 +225,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "wsrOtEKXmSXPx72OENdsVg=="
+          "hash": "rETnqjMrgkzUbt/QU70BxQ=="
         }
       },
       "is_incremental": false,
@@ -270,7 +258,7 @@
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 9,
+          "total_file_count": 8,
           "skipped_file_count": 0
         },
         "ResourceDocumentProcessor": {
