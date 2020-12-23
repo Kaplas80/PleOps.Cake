@@ -129,10 +129,11 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="project-setup">Project setup</h1>
 
+<h2 id="new-setup">New setup</h2>
 <p>Use the <a href="https://github.com/pleonex/template-csharp">project template</a> to
 initialize a new repository, or adapt an existing one copying its file and
 structure. Then follow this checklist to adapt the template to your project.</p>
-<h2 id="setup">Setup</h2>
+<h3 id="project-files">Project files</h3>
 <ul>
 <li>[ ] Update README.md: title and description.</li>
 <li>[ ] Update LICENSE: copyright author</li>
@@ -143,14 +144,14 @@ file.</li>
 <li>[ ] Update the icons of the project at <code>docs/images/</code>.</li>
 <li>[ ] Update the <code>.csproj</code> files with the correct dependencies.</li>
 </ul>
-<h2 id="documentation">Documentation</h2>
+<h3 id="documentation">Documentation</h3>
 <ul>
 <li>[ ] Update the first steps doc at <code>docs/guides/First-Steps.md</code>.</li>
 <li>[ ] Update <code>docs/docfx.json</code> with the path to the API project files.</li>
 <li>[ ] Update <code>docs/global_metadata.json</code> with the properties of the project.</li>
 <li>[ ] Update <code>docs/toc.yml</code> with the project URL.</li>
 </ul>
-<h2 id="build-and-release-workflows">Build and release workflows</h2>
+<h3 id="build-and-release-workflows">Build and release workflows</h3>
 <ul>
 <li>[ ] Create the milestone <code>vNext</code>.</li>
 <li>[ ] Update <code>launch.json</code> with the path of the console application (if any).</li>
@@ -164,6 +165,71 @@ the preview NuGet feed.</li>
 <li>[ ] Add a new secret <code>STABLE_NUGET_FEED_TOKEN</code> with the API key for the stable
 NuGet feed.</li>
 </ul>
+<h2 id="port-existing-project">Port existing project</h2>
+<p>In general follow these steps to take and adapt the files from the
+<a href="https://github.com/pleonex/template-csharp">project template</a>.</p>
+<ol>
+<li><p>Copy the folder <code>.devcontainer</code> and starts VS Code. When asked, re-open the
+folder inside the container. Congratulations, now you have a clean dev
+environment.</p>
+</li>
+<li><p>Compare the content of the example <code>README.md</code>, <code>LICENSE</code>,
+<code>CODE_OF_CONDUCT.md</code>, <code>CONTRIBUTING.md</code>, <code>SECURITY.md</code> files and make any
+desired modifications.</p>
+</li>
+<li><p>Copy and adapt the file <code>src/Directory.Build.props</code>. It defines the
+information for the NuGet packages and <em>SourceLink</em>. Remove the redundant
+information from your <code>.csproj</code>.</p>
+</li>
+<li><p>Follow the format of <code>src/Directory.Packages.props</code> to migrate to
+<a href="https://github.com/NuGet/Home/wiki/Centrally-managing-NuGet-package-versions"><em>centralized NuGet packages</em></a>.
+Add each of your dependencies as <code>PackageVersion</code> and remove the version in
+each of your <code>.csproj</code>.</p>
+<ul>
+<li>Add a dependency with <code>coverlet.collector</code> if you want to have code
+coverage in your test projects.</li>
+</ul>
+</li>
+<li><p>Compare your <code>.csproj</code> with the example provider. They should look similar.
+Remember to pack the icon in your public libraries and to define the
+<code>RuntimeIdentifier</code> in applications.</p>
+</li>
+<li><p>Copy and adapt <code>.editorconfig</code> to follow your project coding style
+guidelines. This file also defines some ignore rules. Pay attention to the
+end of the file where it ignores special rules for test projects, you may
+need to adjust the glob expression.</p>
+</li>
+<li><p>Copy <code>.config</code>, <code>Tests.runsettings</code>, <code>GitVersion.yml</code> and <code>build.cake</code>.
+Update the <code>Define-Project</code> task to list your project names and the preview
+and stable NuGet feeds.</p>
+<ul>
+<li>You should be able to restore the build tool with <code>dotnet tool restore</code> and
+build and run the tests of your project with
+<code>dotnet cake --target=BuildTest</code>.</li>
+</ul>
+</li>
+<li><p>Copy, compare and adapt the DocFX configuration and TOC files. In the
+<code>docs/dev/Changelog.md</code> file the full changelog will be written.</p>
+</li>
+<li><p>Copy the workflow from <code>.github/workflows</code>. Adapt the value of
+<code>PREVIEW_NUGET_FEED</code> and create the two required secrets:
+<code>STABLE_NUGET_FEED_TOKEN</code> and <code>PREVIEW_NUGET_FEED_TOKEN</code>.</p>
+</li>
+<li><p>Copy <code>GitReleaseManager.yaml</code> and adapt to your issue labels.</p>
+</li>
+<li><p>Copy the GitHub templates for issues and pull requests:
+<code>.github/ISSUE_TEMPLATE</code> and <code>PULL_REQUEST_TEMPLATE.md</code>.</p>
+</li>
+<li><p>Copy the <code>.vscode</code> to have build and launch tasks for VS Code. Adapt the
+path to launch your applications (if any).</p>
+</li>
+<li><p>Make sure there is a <code>gh-pages</code> branch. You can create a new one with the
+following commands:</p>
+<pre><code class="lang-sh">git checkout --orphan gh-pages
+git commit --allow-empty &quot;:sparkles: Initial doc branch&quot;
+</code></pre>
+</li>
+</ol>
 </article>
           </div>
           
