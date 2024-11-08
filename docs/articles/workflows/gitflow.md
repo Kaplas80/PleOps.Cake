@@ -3,7 +3,7 @@
 The _git flow_ defines how to integrate a build and release strategy with the
 _git_ source control management (SCM).
 
-## General flow
+## Overview
 
 Following git flow style, there are three types of branches: main, feature and
 release branches.
@@ -83,8 +83,8 @@ gitGraph LR:
 
 ## Main branch
 
-Also known as `develop`, it's the current development branch with latest
-features and fixes.
+Also known as `develop` or `dev`, it's the current development branch with
+latest features and fixes.
 
 This branch should be **protected** so no direct pushes are allowed. Changes
 should come via _pull requests_ from feature branches.
@@ -117,7 +117,9 @@ are deployed, but they should be accessible to download and test from CI output.
 
 Branches that help with the release and support process of a product release. In
 a release branch you can stabilize the release without stopping development in
-the _main_ branch of new features that won't go into that release.
+the _main_ branch of new features that won't go into that release. This is the
+case when stablishing a **code freeze** or _feature freeze_ date, from which no
+more development is allowed without previous approval.
 
 They are prefixed with `release/` followed by the major and minor version
 numbers.

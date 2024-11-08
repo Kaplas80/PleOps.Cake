@@ -28,6 +28,9 @@
   href: ./workflows/pipeline.md
 - name: Git flow
   href: ./workflows/gitflow.md
+  items:
+    - name: Git flow in detail
+      href: ./workflows/gitflow-detailed.md
 - name: Versioning
   href: ./workflows/versioning.md
 - name: 🚧 Translation
