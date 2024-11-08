@@ -57,49 +57,54 @@ config:
 ---
 
 gitGraph LR:
-  # Start from a release
+  %% Start from a release
   commit id: "3.1" tag: "v3.1"
 
-  # Feature into main
-  branch feature/name order: 1
-  commit id: "3.2.1-wip-name0001"
-  commit id: "3.2.2-wip-name0002"
+  %% Feature into main
+  branch feature/work1 order: 1
+  commit id: "3.2.1-wip-work10001"
+  commit id: "3.2.2-wip-work10002"
   checkout main
-  merge feature/name id: "3.2.501"
+  merge feature/work1 id: "3.2.501-dev1"
 
-  # Create release branch (LTS)
+  %% Create release branch
   branch release/3.2 order: 3
   commit id: "3.2.1000"
 
-  # Hotfix after manual test failures
-  branch feature/hotfix order: 4
+  %% In parallel, new features to main
+  checkout main
+  branch feature/breaking order: 0
+  commit id: "3.2.1-wip-breaking0001"
+
+  %% Fix after quality assurance tests
+  checkout release/3.2
+  branch feature/qa-fix order: 4
+  commit id: "3.2.1-wip-qa-fix0001"
+
+  %% After the merge, more testing and approval -> release to prod
+  checkout release/3.2
+  merge feature/qa-fix id: "3.2.1001" tag: "v3.2.1001"
+
+  %% More work on the dev feature
+  checkout feature/breaking
+  commit id: "3.2.2-wip-breaking0002"
+  checkout main
+  merge feature/breaking id: "3.2.502-dev2"
+
+  %% Merge release branch to bump number
+  checkout main
+  merge release/3.2 id: "3.3.501-dev1"
+
+  %% Patch on last release
+  checkout release/3.2 %% in practice, branch from the git tag name
+  branch feature/hotfix order: 5
   commit id: "3.2.1-wip-hotfix0001"
-  commit id: "3.2.2-wip-hotfix0002"
   checkout release/3.2
-  merge feature/hotfix id: "3.2.1001" tag: "v3.2.1001"
+  merge feature/hotfix id: "3.2.1002" tag: "v3.2.1002"
 
-  # In parallel, new features to main
+  %% Merge hotfix to main as cherry-picks from now on
   checkout main
-  branch feature/name2 order: 0
-  commit id: "3.2.1-wip-name20001"
-  commit id: "3.2.2-wip-name20002"
-  checkout main
-  merge feature/name2 id: "3.2.502-dev2"
-
-  # Merge release branch to bump number
-  checkout main
-  merge release/3.2 id: "3.3.502-dev2"
-
-  # Patch on LTS
-  checkout release/3.2
-  branch feature/hotfix2 order: 5
-  commit id: "3.2.1-wip-hotfix20001"
-  checkout release/3.2
-  merge feature/hotfix2 id: "3.2.1002" tag: "v3.2.1002"
-
-  # Merge hotfix to main as cherry-picks from now on
-  checkout main
-  commit id: "3.3.503-dev3" type: HIGHLIGHT tag: "cherry-pick hotfix2"
+  commit id: "3.3.502-dev2" type: HIGHLIGHT tag: "cherry-pick hotfix"
 ```
 
 > [!NOTE]  
@@ -130,10 +135,11 @@ technologies:
 - **NuGet**: uses SemVer with three digits and optional suffix
   - NuGet sorts higher non-suffixed versions. Then it compares with reverse
     alphabetical order (no suffix > rc > preview).
-  - ProGet feeds does not support dots (`.`) in the suffix and long suffixes.
+  - ProGet feeds does not support dots (`.`) in the suffix or long suffixes.
 - **.NET assemblies**: uses a version with four digits lower or equal to 65534
   - Ignore the version suffix
-- **MSI**: uses version with three digits.
+  - At runtime, it's possible to get `PRODUCTVERSION` from the assembly file.
+- **Windows installers (MSI)**: uses version with three digits.
   - It does not support suffixes.
   - Major and minor must be between `[0, 255]`.
   - The third digit must be between `[0, 65535]`.
