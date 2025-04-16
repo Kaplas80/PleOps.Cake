@@ -8,8 +8,8 @@ releasing.
 
 ### New features and fixes
 
-Developers implements new features and bug fixes from a new branch each time.
-The feature branches have the prefix `feature/` and start from the `main` (or
+Developers implement new features and bug fixes from a new branch each time. The
+feature branches have the prefix `feature/` and start from the `main` (or
 `develop`) branch.
 
 The recommended merging strategy is _squashing_ to maintain a clean history in
@@ -34,15 +34,15 @@ gitGraph LR:
   merge feature/name tag: "Preview"
 ```
 
-### Large breaking feature
+### Epic features
 
 Large features may take several work batches to implement, breaking or making
 the product unstable for a period of time. For these cases, consider having a
-parallel branch to _main_ to merge related features. It allows to break a large
+parallel branch to _main_ to merge related features. It allows breaking a large
 work into smaller features, while not impacting other developers or the main
 product development.
 
-It also allows to configure different temporal branch policies, for instance
+It also allows configuring different temporal branch policies, for instance
 disable quality gates or even building some components, while the new work is
 being implemented.
 
@@ -50,8 +50,9 @@ Depending on the work, consider configuring the _epic_ branch to build and
 deploy on a separate environment for validation.
 
 > [!TIP]  
-> Prioritize merging the _epic_ branch as soon as possible. The maintaince cost
-> increases quickly and it can be tricky to merge back later.
+> Prioritize merging the _epic_ branch as soon as possible. The maintenance cost
+> increases quickly, and it can be tricky to merge back later. Consider doing
+> periodic merges from main to the epic branch.
 
 ```mermaid
 ---
@@ -76,10 +77,10 @@ gitGraph LR:
 
   %% Feature for the epic
   checkout epic/component-rewrite
-  branch feature/work-start order: 4
+  branch feature/rewrite-1of10 order: 4
   commit tag: "Dev"
   checkout epic/component-rewrite
-  merge feature/work-start tag: "Preview"
+  merge feature/rewrite-1of10 tag: "Dev / Preview"
 
   %% Regular feature
   checkout main
@@ -88,12 +89,15 @@ gitGraph LR:
   checkout main
   merge feature/2 tag: "Preview"
 
-  %% Other epic feature
+  %% Merge into epic latest changes
   checkout epic/component-rewrite
+  merge main
+
+  %% Other epic feature
   branch feature/integrate order: 5
   commit tag: "Dev"
   checkout epic/component-rewrite
-  merge feature/integrate tag: "Preview"
+  merge feature/integrate tag: "Dev / Preview"
 
   %% Merge back soon!
   checkout main
@@ -104,7 +108,45 @@ gitGraph LR:
 
 ### Simple from main
 
-TODO
+The simplest way to release is from the _main_ branch. Create a git tag to
+trigger a pipeline or start it manually. It should promote the latest build
+deployed in the preview environment (after running proper validations) on the
+_same commit_ to the production environment.
+
+As part of the release process, the commit deployed must always have a git tag
+with the version number.
+
+> [!TIP]  
+> This process works well in small projects. It will block any further
+> development until the release is done. Consider the
+> [release branch workflow](#from-release-branch) to avoid blocking the
+> development team.
+
+```mermaid
+---
+config:
+  theme: base
+  gitGraph:
+    showCommitLabel: false
+    mainBranchOrder: 3
+---
+
+gitGraph LR:
+  commit tag: "Preview"
+
+  %% Feature into main
+  branch feature/for-vNext order: 2
+  commit tag: "Dev"
+  commit tag: "Dev"
+  checkout main
+  merge feature/for-vNext tag: "Preview"
+
+  %% Another feature for next release
+  branch feature/for-vNext2 order: 1
+  commit tag: "Dev"
+  checkout main
+  merge feature/for-vNext2 tag: "Preview" tag: "release/vNext"
+```
 
 ### From release branch
 
