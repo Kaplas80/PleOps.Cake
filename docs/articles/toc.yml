@@ -33,8 +33,6 @@
       href: ./workflows/gitflow-detailed.md
 - name: Versioning
   href: ./workflows/versioning.md
-- name: 🚧 Translation
-  href: ./workflows/translation.md
 
 - name: 🗒️ Recipe tasks
 - name: Overview
