@@ -1,7 +1,8 @@
 # Versioning
 
 > [!IMPORTANT]  
-> The implementation of this workflow is not finished yet.
+> While the guideline is complete, the implementation of this workflow with Cake
+> recipes is not finished yet.
 
 The version of the products follows a _pragmatic_ alternative to SemVer. For
 that, the tool [GitVersion](https://gitversion.net/) can help to create it with

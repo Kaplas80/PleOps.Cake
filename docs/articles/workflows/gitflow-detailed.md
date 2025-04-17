@@ -122,6 +122,14 @@ with the version number.
 > [release branch workflow](#from-release-branch) to avoid blocking the
 > development team.
 
+<!-- Just to have two tips -->
+
+> [!WARNING]  
+> The downside of this process is that it usually doesn't allow using a separate
+> versioning strategy for _preview_ and _production_ builds without rebuilding
+> the same commit in the publishing to production process. The binaries that end
+> in production may not be the same tested.
+
 ```mermaid
 ---
 config:
@@ -150,7 +158,58 @@ gitGraph LR:
 
 ### From release branch
 
-TODO
+A release branch offers a dedicated process for releasing while not blocking
+further product development.
+
+Create a new release from the _main_ branch including the prefix `release/` and
+the target version. Some utilities like [GitVersion](https://gitversion.net/)
+can even pick the version number from the branch name and automatically assign
+it in the product.
+
+Builds from the branch are considered _release candidates_ (RC). They should
+have a valid production version number. These binaries should pass a set of
+quality assurance tests in an environment close to production.
+
+Once the product is ready, create a git tag or start manually a pipeline to
+release to production. This pipeline will _promote_ the artifacts into
+production. The commit should end with a git tag with the version number.
+
+After the release, it's safe to remove the release branch. It's always possible
+to recreate it from the git tag.
+
+> [!TIP]  
+> Promoting to production means taking the exact same binaries used for the
+> quality assurance tests and publishing them. It's important to not trigger
+> again a build process, so the binaries that end in production are exactly the
+> same that passed the tests.
+
+```mermaid
+---
+config:
+  theme: base
+  gitGraph:
+    showCommitLabel: false
+    mainBranchOrder: 3
+---
+
+gitGraph LR:
+  commit tag: "Preview"
+
+  %% Release branch
+  branch release/vNext order: 4
+  commit tag: "RC"
+
+  %% Breaking feature for the following release
+  checkout main
+  branch feature/breaking order: 0
+  commit tag: "Dev"
+  checkout main
+  merge feature/breaking tag: "Preview"
+
+  %% Merge release branch
+  checkout main
+  merge release/vNext tag: "Preview"
+```
 
 ### Release stabilization fixes
 
