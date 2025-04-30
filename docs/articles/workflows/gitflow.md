@@ -1,7 +1,22 @@
 # Git flow
 
+The _git flow_ defines how to integrate a build and release strategy with the
+_git_ source control management (SCM).
+
+## Overview
+
 Following git flow style, there are three types of branches: main, feature and
 release branches.
+
+Depending on the branch, pushing a commit or a git tag may trigger a
+[deployment pipeline](./pipeline.md) (shown as a tag in the diagram):
+
+- _Dev_: no deployment, just local dev builds and PR build validations.
+- _Preview_: software ready for deploying in the _preview_ environment.
+  Automatically on every push (e.g., pull-request merge) or manually (e.g., end
+  of Agile sprint).
+- _Production_: promotion of the deployment to the production environment.
+  Usually after pushing a _git tag_ or approving the validation task.
 
 ```mermaid
 ---
@@ -16,52 +31,60 @@ config:
 gitGraph LR:
   commit tag: "Preview"
 
-  # Feature into main
-  branch feature/name order: 1
+  %% Feature into main
+  branch feature/work1 order: 1
   commit tag: "Dev"
   commit tag: "Dev"
   checkout main
-  merge feature/name tag: "Preview"
+  merge feature/work1 tag: "Preview"
 
-  # Create release branch (LTS)
-  branch release/3.2 order: 3
-  commit tag: "Preview"
+  %% Create release branch
+  branch release/X.Y order: 3
+  commit tag: "Preview (RC)"
 
-  # Hotfix after manual test failures
-  branch feature/hotfix order: 4
-  commit tag: "Dev"
-  commit tag: "Dev"
-  checkout release/3.2
-  merge feature/hotfix tag: "v3.2.1001 - Production"
-
-  # In parallel, new features to main
+  %% In parallel, new features to main
   checkout main
-  branch feature/name2 order: 0
+  branch feature/breaking order: 0
   commit tag: "Dev"
+
+  %% Fix after quality assurance tests
+  checkout release/X.Y
+  branch feature/qa-fix order: 4
+  commit tag: "Dev"
+
+  %% After the merge, more testing and approval -> release to prod
+  checkout release/X.Y
+  merge feature/qa-fix tag: "Preview (RC) -> Production (vX.Y.Z)"
+
+  %% More work on the dev feature
+  checkout feature/breaking
   commit tag: "Dev"
   checkout main
-  merge feature/name2 tag: "Preview"
+  merge feature/breaking tag: "Preview"
 
-  # Merge release branch
+  %% Merge release branch
   checkout main
-  merge release/3.2  tag: "Preview"
+  merge release/X.Y tag: "Preview"
 
-  # Patch on LTS
-  checkout release/3.2
-  branch feature/hotfix2 order: 5
+  %% Patch release for latest release
+  checkout release/X.Y %% in practice, branch from the git tag name
+  branch feature/hotfix order: 5
   commit tag: "Dev"
-  checkout release/3.2
-  merge feature/hotfix2 tag: "v3.2.1002 - Production"
+  checkout release/X.Y
+  merge feature/hotfix tag: "Preview (RC) -> Production (vX.Y.Z + 1)"
 
-  # Merge hotfix to main as cherry-picks from now on
+  %% Merge hotfix to main as cherry-picks from now on
+  %% The hotfix may happen a long time after the release that merging directly
+  %% to main may be difficult, and not all fixes may be required.
+  %% Cherry-picking may simplify the process of adapting to the current codebase.
   checkout main
-  commit type: HIGHLIGHT tag: "cherry-pick hotfix2 - Preview"
+  commit type: HIGHLIGHT tag: "cherry-pick hotfix - Preview"
 ```
 
 ## Main branch
 
-Also known as `develop`, it's the current development branch with latest
-features and fixes.
+Also known as `develop` or `dev`, it's the current development branch with
+latest features and fixes.
 
 This branch should be **protected** so no direct pushes are allowed. Changes
 should come via _pull requests_ from feature branches.
@@ -94,7 +117,9 @@ are deployed, but they should be accessible to download and test from CI output.
 
 Branches that help with the release and support process of a product release. In
 a release branch you can stabilize the release without stopping development in
-the _main_ branch of new features that won't go into that release.
+the _main_ branch of new features that won't go into that release. This is the
+case when stablishing a **code freeze** or _feature freeze_ date, from which no
+more development is allowed without previous approval.
 
 They are prefixed with `release/` followed by the major and minor version
 numbers.
@@ -103,8 +128,8 @@ Pushing changes into a release branch should happen only via pull requests that
 are carefully reviewed. A new commit will trigger a new _preview_ build.
 
 Once the release is ready, stakeholders would signs-off / approve the release
-and its quality assurance results. This approval is transformed into a new git
-tag to the latest commit. Pushing a tag will trigger a new _production build_.
+and its quality assurance results. This approval is transformed into a **new git
+tag** to the latest commit. Pushing a tag will trigger a new _production build_.
 
 After the release is out, a _release_ (also known as _support_) branch can be
 used to work on regular patch release like for _long-term support (LTS)_

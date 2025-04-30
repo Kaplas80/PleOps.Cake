@@ -14,6 +14,11 @@ flowchart LR
   classDef green fill:#d5e8d4,stroke:#96be7f
 ```
 
+where:
+
+- _preview_ refers to an environment for validating work-in-progress features.
+- _production_ refers to the final user environment.
+
 The continuous integration pipeline will run our _build orchestrator_ targets.
 The build system does everything needed except setting up the build environment.
 
@@ -28,8 +33,8 @@ run locally as well as to validate pull requests.
 title: Build
 ---
 flowchart LR
-  prepare[Prepare environment] --> build[Build and test deliveries\nTarget 'Default']
-  build --> bundle[Bundle deliveries\nTarget 'Bundle']
+  prepare[Prepare environment] --> build[Build and test deliveries<br>Target 'Default']
+  build --> bundle[Bundle deliveries<br>Target 'Bundle']
   bundle --> upload[Upload deliveries to CI]
 
   classDef default fill:#ffe6cc,stroke:#d79e0f
@@ -69,11 +74,11 @@ title: Build and test per technology
 ---
 flowchart LR
   classDef default fill:#ffe6cc,stroke:#d79e0f
-  sdk[Install tech SDKs] --> restore[Restore dependencies\nConsider caching]
-  restore --> version[Define versiong]
+  sdk[Install tech SDKs] --> restore[Restore dependencies<br>Consider caching]
+  restore --> version[Define versioning]
   version --> build[Build]
-  build --> test["Run tests\n(with code coverage)"]
-  test --> linter[Run linters\nCreate QA report]
+  build --> test["Run tests<br>(with code coverage)"]
+  test --> linter[Run linters<br>Create QA report]
   linter --> bundle[Bundle artifacts]
 ```
 
@@ -94,10 +99,10 @@ title: Deploy (main branch)
 ---
 flowchart LR
   download[Download CI artifacts]
-  download --> deployNuGet[Deploy to preview / staging\nTarget 'Deploy']
+  download --> deployNuGet[Deploy to preview / staging<br>Target 'Deploy']
 ```
 
-## Simple release variant
+### GitHub main branch variant
 
 On small projects we can skip having a release branch at the expense of having
 to **re-build** the project. We can have a simple workflow from GitHub as
@@ -112,14 +117,14 @@ flowchart LR
   classDef green fill:#d5e8d4,stroke:#96be7f
 
   . --> tests[Run manual tests]:::blue
-  tests --> docs[Create GitHub release\nFill release notes]:::blue
-  docs --> signoff[Sign-off by\nconfirming release]:::blue
-  signoff --> tag[GitHub creates\nthe git tag]:::green
-  tag --> rebuild[New build & test flow\nrebuilding with final version]:::green
-  rebuild --> deployProd[Deploy to production\nTarget 'Deploy']:::green
+  tests --> docs[Create GitHub release<br>Fill release notes]:::blue
+  docs --> signoff[Sign-off by<br>confirming release]:::blue
+  signoff --> tag[GitHub creates<br>the git tag]:::green
+  tag --> rebuild[New build & test flow<br>rebuilding with final version]:::green
+  rebuild --> deployProd[Deploy to production<br>Target 'Deploy']:::green
 ```
 
-## Release branch variant
+### Release branch variant
 
 If the build is happening from a [release branch](./gitflow.md#release-branches)
 then it's a _release candidate_, a potential stable build. The pipeline then
@@ -137,7 +142,7 @@ flowchart LR
   tests --> docs[Create release notes]:::blue
   docs --> signoff[Sign-off]:::blue
   signoff --> tag[Git tag]:::green
-  tag --> deployProd[Deploy to production\nTarget 'Deploy']:::green
+  tag --> deployProd[Deploy to production<br>Target 'Deploy']:::green
 ```
 
 The step to create release notes and sign-off may be different depending the
