@@ -197,27 +197,142 @@ gitGraph LR:
 
   %% Release branch
   branch release/vNext order: 4
-  commit tag: "RC"
+  commit tag: "Preview (RC)" tag: "Production (vNext)"
 
-  %% Breaking feature for the following release
+  %% New feature for the following release
   checkout main
-  branch feature/breaking order: 0
+  branch feature/new-feature order: 0
   commit tag: "Dev"
   checkout main
-  merge feature/breaking tag: "Preview"
+  merge feature/new-feature tag: "Preview"
+```
+
+### Release stabilization fixes
+
+As part of the quality assurance process of a _release candidate_ build in the
+release branch, new issues found may require fixes. These fixes should be
+prioritized for the ongoing release.
+
+The recommendation is to create a [feature](#new-features-and-fixes) branch from
+the current release branch. Then merge it back to the release branch, triggering
+a new _release candidate_ build.
+
+To get the fix into main there are two strategies:
+
+- After the release, merge the release branch back into the main branch. Use a
+  standard merge strategy instead of _git squash_ to preserve the commits of the
+  different fixes.
+- Create a new feature branch from _main_ and cherry-pick the merge commit of
+  the fix (or the commits of the feature fix branch before merging).
+
+```mermaid
+---
+title: "Git flow"
+config:
+  theme: base
+  gitGraph:
+    showCommitLabel: false
+    mainBranchOrder: 3
+---
+
+gitGraph LR:
+  commit tag: "Preview"
+
+  %% Release branch to avoid blocking further work
+  branch release/vNext order: 4
+  commit tag: "Preview (RC)" %% Fake commit just to have a build tag "from the branch"
+
+  %% Fix after manual test failures
+  checkout release/vNext
+  branch feature/release-fix order: 5
+  commit tag: "Dev"
+  checkout release/vNext
+  merge feature/release-fix tag: "Preview (RC)" tag: "Production (vNext)"
+
+  %% New feature for the following release
+  checkout main
+  branch feature/new-feature order: 0
+  commit tag: "Dev"
+  checkout main
+  merge feature/new-feature tag: "Preview"
 
   %% Merge release branch
   checkout main
   merge release/vNext tag: "Preview"
 ```
 
-### Release stabilization fixes
-
-TODO
-
 ### Patch release
 
-TODO
+A _patch_ or _hotfix_ release happens when wanting to add new fixes in an
+existing released version of the software. The difference with a new release is
+that the _main_ branch may already contain commits for a future new feature
+release that it shouldn't go into this small release.
+
+In this case, create a new release branch from the _git tag_ of the targeted
+release to _fix_. From here, follow the
+[above process](#release-stabilization-fixes) adding the required fixes via
+feature branches into the patch release branch.
+
+Finally, follow the same release process, git tagging the release and removing
+the branch. But, do not merge this hotfix branch into _main_ as it can be
+difficult if both branches have diverged a lot. Bring the fixes into main
+manually or via cherry-picks feature branches.
+
+```mermaid
+---
+title: "Git flow"
+config:
+  theme: base
+  gitGraph:
+    showCommitLabel: false
+    mainBranchOrder: 3
+---
+
+gitGraph LR:
+  commit tag: "Preview"
+
+  %% Release branch to avoid blocking further work
+  branch release/vNext order: 4
+  commit tag: "Preview (RC)" %% Fake commit just to have a build tag "from the branch"
+
+  %% Breaking feature not for the next release
+  checkout main
+  branch feature/new-feature order: 1
+  commit tag: "Dev"
+  checkout main
+  merge feature/new-feature tag: "Preview"
+
+  %% Fix after manual test failures
+  checkout release/vNext
+  branch feature/release-fix order: 5
+  commit tag: "Dev"
+  checkout release/vNext
+  merge feature/release-fix tag: "Preview (RC)" tag: "Production (vNext)"
+
+  %% Merge release branch
+  checkout main
+  merge release/vNext tag: "Preview"
+
+  %% Another development
+  branch feature/new-feature2 order: 0
+  commit tag: "Dev"
+  checkout main
+  merge feature/new-feature2 tag: "Preview"
+
+  %% Release hot-fix
+  checkout "release/vNext"
+  branch release/vNext.patch order: 5
+  commit tag: "Preview (RC)" %% Fake commit just to have a build tag "from the branch"
+
+  branch feature/fix-hotfix order: 5
+  commit tag: "Dev"
+  checkout release/vNext.patch
+  merge feature/fix-hotfix tag: "Preview (RC)" tag: "Production (vNext.1)"
+
+  %% Merge hotfix to main as cherry-picks from now on
+  checkout main
+  commit type: HIGHLIGHT tag: "cherry-pick hotfix (via PR) - Preview"
+```
 
 ## Complete diagram
 
