@@ -114,13 +114,12 @@ gitGraph LR:
 ## Increasing the version
 
 GitVersion increases the `minor` number automatically after a release (git tag).
-The `major` and `minor` can be defined manually at the time of creating from its
-name. For instance `release/x.y` will set the version to `x.y.30000`.
-
 The third digit is configured to increase after each commit in the branch.
 
-This schema guarantees that at any point, rebuilding the project on a given
-commit will give the same version, allowing deterministic builds.
+It's also possible to define the version manually (`major` and `minor`) from the
+name of the _release branch_. For instance, creating the branch `release/x.y`
+will set the version to `x.y.30000`. The versioning tool should prioritize the
+version from the name of the branch than from git commit messages.
 
 > [!TIP]  
 > Depending on your pull request review platform, you could also increase major
